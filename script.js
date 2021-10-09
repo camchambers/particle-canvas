@@ -47,5 +47,27 @@ class Particle {
     if (this.y > canvas.height || this.y < 0) {
       this.directionY = -this.directionY;
     }
+
+    // Collision detection
+    // mouse position / particile position
+    // Check the difference of the distance from the mouse to a particle
+    let dx = mouse.x - this.x;
+    let dy = mouse.y - this.y;
+    // TODO: Try ** operator
+    let distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance < mouse.radius + this.size) {
+      if (mouse.x < this.x && this.x < canvas.width - this.size * 10) {
+        this.x += 10;
+      }
+      if (mouse.x > this.x && this.x > this.size * 10) {
+        this.x -= 10;
+      }
+      if (mouse.y < this.y && this.y < canvas.height - this.size * 10) {
+        this.y += 10;
+      }
+      if (mouse.y > this.y && this.y > this.y > this.size * 10) {
+        this.y -= 10;
+      }
+    }
   }
 }
