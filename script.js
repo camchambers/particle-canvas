@@ -102,7 +102,30 @@ function animate() {
   for (let i = 0; i < particlesArray.length; i++) {
     particlesArray[i].update();
   }
+  connect();
 }
+
+// Check if particles are close enough to connect
+function connect() {
+  for (let a = 0; a < particlesArray.length; a++) {
+    for (let b = 0; b < particlesArray.length; b++) {
+      let distance =
+        (particlesArray[a].x - particlesArray[b].x) *
+          (particlesArray[a].x - particlesArray[b].x) +
+        (particlesArray[a].y - particlesArray[b].y) *
+          (particlesArray[a].y - particlesArray[b].y);
+      if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+        ctx.strokeStyle = "rgba(140,85,31,1)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+// Carry on here: https://youtu.be/d620nV6bp0A?t=767
 
 init();
 animate();
