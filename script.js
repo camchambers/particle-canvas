@@ -22,7 +22,7 @@ window.addEventListener("mousemove", function (event) {
 
 // Particle class
 class Particle {
-  constructor(x, y, direcitonX, directionY, size, color) {
+  constructor(x, y, directionX, directionY, size, color) {
     this.x = x;
     this.y = y;
     this.directionX = directionX;
@@ -81,14 +81,28 @@ function init() {
   particlesArray = [];
   let numberOfParticles = (canvas.height * canvas.width) / 9000;
   for (let i = 0; i < numberOfParticles; i++) {
-    let size = Math.random() * 5 + 1;
-    let x = Math.random() * (innerWidth - size * 2 - size * 2) + size * 2;
-    let y = Math.random() * (innerHeight - size * 2 - size * 2) + size * 2;
-    let direction = Math.random() * 5 - 2.5;
-    let directionY = Math.random() * 5 - 2.5;
+    let size = (Math.random() * 5)+ 1;
+    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+    let y = Math.random() * ((innerHeight - size * 2) - (size * 2)) + (size * 2);
+    let directionX = (Math.random() * 5) - 2.5;
+    let directionY = (Math.random() * 5) - 2.5;
+    let color = '#8C5523';
 
     particlesArray.push(
       new Particle(x, y, directionX, directionY, size, color)
     );
   }
 }
+
+// Main animation loop
+function animate() {
+  requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+  for (let i = 0; i < particlesArray.length; i++) {
+    particlesArray[i].update();
+  }
+}
+
+init();
+animate();
