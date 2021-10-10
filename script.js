@@ -96,26 +96,24 @@ function init() {
 
 // Check if particles are close enough to connect
 function connect() {
-    for (let a = 0; a < particlesArray.length; a++) {
-      for (let b = 0; b < particlesArray.length; b++) {
-        let distance =
-          (particlesArray[a].x - particlesArray[b].x) *
-            (particlesArray[a].x - particlesArray[b].x) +
-          (particlesArray[a].y - particlesArray[b].y) *
-            (particlesArray[a].y - particlesArray[b].y);
-        if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-          ctx.strokeStyle = "rgba(140,85,31,1)";
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-          ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-          ctx.stroke();
-        }
+  for (let a = 0; a < particlesArray.length; a++) {
+    for (let b = 0; b < particlesArray.length; b++) {
+      let distance =
+        (particlesArray[a].x - particlesArray[b].x) *
+          (particlesArray[a].x - particlesArray[b].x) +
+        (particlesArray[a].y - particlesArray[b].y) *
+          (particlesArray[a].y - particlesArray[b].y);
+      if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+        ctx.strokeStyle = "rgba(140,85,31,1)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+        ctx.stroke();
       }
     }
   }
-  
-
+}
 
 // Main animation loop
 function animate() {
@@ -130,15 +128,18 @@ function animate() {
 
 // Window resize event
 
-window.addEventListener('resize',
-function(){
-    canvas.width = this.innerWidth;
-    canvas.height = this.innerHeight;
-    mouse.radius = ((canvas.height/80) * (canvas.height/80));
-    init();
+window.addEventListener("resize", function () {
+  canvas.width = this.innerWidth;
+  canvas.height = this.innerHeight;
+  mouse.radius = (canvas.height / 80) * (canvas.height / 80);
+  init();
 });
 
-
+// Mouse out event
+window.addEventListener("mouseout", function () {
+  mouse.x = undefined;
+  mouse.y = undefined;
+});
 
 init();
 animate();
