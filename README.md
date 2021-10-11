@@ -1,4 +1,2 @@
 # Particle Canvas
-A demonstration of a particle effect with vanilla JavaScript
-
-Inspirted by the tutorial "Particles JS Effect with Pure Vanilla JavaScript | Animated Background Tutorial with Examples"
+A particle effect written in vanilla JavaScript, inspired by the tutorial [Particles JS Effect with Pure Vanilla JavaScript](https://youtu.be/d620nV6bp0A).
