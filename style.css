@@ -1,8 +1,9 @@
-* {
+body {
   background-color: #ccc;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: crosshair;
 }
 
 #canvas1 {
@@ -10,5 +11,5 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: radial-gradient(#ffc38c, #ff9b40);
+  background: radial-gradient(#0b0b0b, #000000);
 }

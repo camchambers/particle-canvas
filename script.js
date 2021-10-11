@@ -1,18 +1,14 @@
 const canvas = document.getElementById("canvas1");
-
-const ctx = canvas.getContext("2d");
-
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let particlesArray = [];
+const ctx = canvas.getContext("2d");
 
 // Get mouse position
-
 let mouse = {
   x: null,
   y: null,
-  radius: (canvas.height / 80) * (canvas.width / 80),
+  radius: (canvas.height / 100) * (canvas.width / 100),
 };
 
 window.addEventListener("mousemove", function (event) {
@@ -34,13 +30,12 @@ class Particle {
   draw() {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-    ctx.fillStyle = "#8C5523";
+    ctx.fillStyle = "rgba(100, 220, 50, 0.5)";
     ctx.fill();
   }
 
-  // Check particle position, mouse position, and move the particple, draw the particle
   update() {
-    //check if the particle is within the canvas
+    // Ensure the particle stays within the canvas boundaries
     if (this.x > canvas.width || this.x < 0) {
       this.directionX = -this.directionX;
     }
@@ -49,12 +44,11 @@ class Particle {
     }
 
     // Collision detection
-    // mouse position / particile position
-    // Check the difference of the distance from the mouse to a particle
     let dx = mouse.x - this.x;
     let dy = mouse.y - this.y;
-    // TODO: Try ** operator
-    let distance = Math.sqrt(dx * dx + dy * dy);
+    let distance = Math.sqrt(dx ** 2 + dy ** 2);
+
+    // Check the difference of the distance from the mouse to a particle
     if (distance < mouse.radius + this.size) {
       if (mouse.x < this.x && this.x < canvas.width - this.size * 10) {
         this.x += 10;
@@ -69,24 +63,24 @@ class Particle {
         this.y -= 10;
       }
     }
-    // Move the particle in the appropriate direction
+    // Move the particle in the appropriate direction and redraw it
     this.x += this.directionX;
     this.y += this.directionY;
-    // Draw the particle
     this.draw();
   }
 }
 
+// Initalize particles
 function init() {
   particlesArray = [];
-  let numberOfParticles = (canvas.height * canvas.width) / 9000;
+  let numberOfParticles = (canvas.height * canvas.width) / 6000;
   for (let i = 0; i < numberOfParticles; i++) {
-    let size = Math.random() * 5 + 1;
+    let size = Math.random() * 3 + 1;
     let x = Math.random() * (innerWidth - size * 2 - size * 2) + size * 2;
     let y = Math.random() * (innerHeight - size * 2 - size * 2) + size * 2;
     let directionX = Math.random() * 5 - 2.5;
     let directionY = Math.random() * 5 - 2.5;
-    let color = "#8C5523";
+    let color = "rgba(100,200,30,1);";
 
     particlesArray.push(
       new Particle(x, y, directionX, directionY, size, color)
@@ -106,7 +100,7 @@ function connect() {
           (particlesArray[a].y - particlesArray[b].y);
       if (distance < (canvas.width / 7) * (canvas.height / 7)) {
         opacityValue = 1 - distance / 12000;
-        ctx.strokeStyle = "rgba(140,85,31," + opacityValue + ")";
+        ctx.strokeStyle = "rgba(100,200,30," + opacityValue + ")";
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -122,14 +116,14 @@ function animate() {
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, innerWidth, innerHeight);
 
+  // Iterate over each particle and have it update
   for (let i = 0; i < particlesArray.length; i++) {
     particlesArray[i].update();
   }
   connect();
 }
 
-// Window resize event
-
+// Handle window resizing
 window.addEventListener("resize", function () {
   canvas.width = this.innerWidth;
   canvas.height = this.innerHeight;
@@ -137,7 +131,7 @@ window.addEventListener("resize", function () {
   init();
 });
 
-// Mouse out event
+// Handle mouse collision detection when mouse is out of bounds
 window.addEventListener("mouseout", function () {
   mouse.x = undefined;
   mouse.y = undefined;
